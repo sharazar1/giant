@@ -1,0 +1,89 @@
+# templates.yaml
+
+Checks:
+  checks_ordered: # Note: Using underscores for keys is generally safer in code
+    display_name: "Checks Ordered"
+    template: "We have ordered the {country_name} {check_types_string} check and are awaiting a response."
+    input_config:
+      country_name:
+        widget: text_input
+        label: "Country Name:"
+        placeholder: "E.g., United Kingdom"
+      check_types: # This key corresponds to the data from the multiselect
+        widget: multiselect
+        label: "Select Check Type(s) Ordered:"
+        options: ["Credit", "Criminal", "Directorship"]
+        format_function: "format_check_types" # Name of Python function to process multiselect output
+
+  checks_reviewed:
+    display_name: "Checks Reviewed"
+    template: "Reviewed checks for {candidate_name}. Summary: {review_summary}" # Simplified example
+    input_config:
+      candidate_name: { widget: text_input, label: "Candidate Name:" }
+      review_summary: { widget: text_area, label: "Review Summary:" } # Example using text_area
+
+Referencing:
+  four_steps: # Key for '4 steps'
+    display_name: "4 Steps"
+    # This level acts as a container, doesn't have its own template/inputs
+    sub_items: # Indicates further nesting
+      internal_database:
+        display_name: "Internal Database"
+        template: "Checked internal DB for {candidate_name} ref: {referee_name}. Result: {db_result}"
+        input_config:
+          candidate_name: { widget: text_input, label: "Candidate Name:" }
+          referee_name: { widget: text_input, label: "Referee Name:" }
+          db_result: { widget: text_input, label: "Database Result:" }
+      called_referee:
+        display_name: "Called Referee"
+        template: "Called referee {referee_name} for {candidate_name}. Summary: {call_summary}"
+        input_config:
+          candidate_name: { widget: text_input, label: "Candidate Name:" }
+          referee_name: { widget: text_input, label: "Referee Name:" }
+          call_summary: { widget: text_area, label: "Call Summary:" }
+      online_platform:
+        display_name: "Online Platform"
+        template: "Used online platform {platform_name} for {candidate_name} reference check. Status: {platform_status}"
+        input_config:
+          platform_name: { widget: text_input, label: "Platform Name:" }
+          candidate_name: { widget: text_input, label: "Candidate Name:" }
+          platform_status: { widget: text_input, label: "Platform Status:" }
+      candidate_provided:
+        display_name: "Candidate Provided"
+        template: "Received reference provided by candidate {candidate_name} from {referee_name}. Content: {reference_content}"
+        input_config:
+          candidate_name: { widget: text_input, label: "Candidate Name:" }
+          referee_name: { widget: text_input, label: "Referee Name:" }
+          reference_content: { widget: text_area, label: "Reference Content:" }
+
+  character_reference:
+    display_name: "Character Reference"
+    template: "Character reference received for {candidate_name} from {referee_name}. Summary: {reference_summary}"
+    input_config:
+      candidate_name: { widget: text_input, label: "Candidate Name:" }
+      referee_name: { widget: text_input, label: "Referee Name:" }
+      reference_summary: { widget: text_area, label: "Reference Summary:" }
+
+Client_Contact: # Using underscore for key
+  cost_approval_required:
+    display_name: "Cost Approval Required"
+    template: "Client approval needed for {service_description}. Cost: {cost}. Sent to: {client_contact}."
+    input_config:
+      service_description: { widget: text_input, label: "Service/Check Description:" }
+      cost: { widget: text_input, label: "Cost:" } # Consider st.number_input if appropriate
+      client_contact: { widget: text_input, label: "Client Contact Person/Email:" }
+
+Candidate_Contact: # Using underscore for key
+  hedd_form_signing: # Simplified key
+    display_name: "HEDD Form Needs Signing"
+    template: "HEDD form sent to {candidate_name} ({candidate_email}). Requires signature."
+    input_config:
+      candidate_name: { widget: text_input, label: "Candidate Name:" }
+      candidate_email: { widget: text_input, label: "Candidate Email:" }
+  additional_info_required:
+    display_name: "Additional Information Required"
+    template: "Contacted {candidate_name} for additional info: {info_needed}. Reason: {reason}."
+    input_config:
+      candidate_name: { widget: text_input, label: "Candidate Name:" }
+      info_needed: { widget: text_input, label: "Information Needed:" }
+      reason: { widget: text_area, label: "Reason for Request:" }
